@@ -84,7 +84,7 @@ async function start() {
     const fakePlayerLink = await page.$('.fake-player a');
     await fakePlayerLink.click();
 
-    process.stdout.write("\nWaiting just until clips list is available..");
+    process.stdout.write("\nWaiting until clips list is available...");
     await page.waitForSelector('#clip-container .clip');
 
     /** Click "loop" until no more clips can be watched */
@@ -165,7 +165,8 @@ async function clickClip(browser, page, nested) {
 
 async function waitUntilNewVideoAvailable(browser, page, nested) {
     process.stdout.write("\nSeems like you can't watch any more video for now...");
-    process.stdout.write("\nLet's wait 10 minutes starting from now ("+(Date().toString())+")...");
+    process.stdout.write("\nSince videos can be seen only every hour, we'll refresh in 10 minutes to see if another can be watched...");
+    process.stdout.write("\nLet's wait a bit (started waiting at: "+(Date().toString())+")...");
     await sleep(600000);
 
     await page.reload();

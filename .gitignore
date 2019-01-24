@@ -1,3 +1,4 @@
 node_modules/
 build/chrome-win/
 build/*.exe
+build/*.zip
