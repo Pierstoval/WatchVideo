@@ -9,7 +9,7 @@ It's not suitable for most cases because it's quite unstable, and any abuse comi
 
 ## How to use
 
-Download latest release in the [releases page of this repository](https://github.com/Pierstoval/WatchVideo/releases), download the one for your env, and edit the `watch_video.bat` file to use your own url/username/password, and then run it.
+Download latest release in the [releases page of this repository](https://github.com/Pierstoval/WatchVideo/releases), execute `watch_video.exe` and you're set!
 
 For now, it works only on Windows.
 
@@ -30,6 +30,6 @@ This will make Puppeteer create the chrome executable in its local environment.
 
 Then, install [pkg](https://github.com/zeit/pkg) on your machine, this is how the `exe` file is built.
 
-Then, run `build`, and `pkg` will create the `build/app.exe` file, and the chrome directory will be copied to `build/chrome-win`.
+Then, run `build`, and `pkg` will create the `build/watch_video.exe` file, and the chrome directory will be copied to `build/chrome-win`.
 
 This is the method that is used to generate the releases.
