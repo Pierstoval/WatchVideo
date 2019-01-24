@@ -9,7 +9,7 @@ It's not suitable for most cases because it's quite unstable, and any abuse comi
 
 ## How to use
 
-Download latest release in the [releases page of this repository](releases/), download the one for your env, and edit the `watch_video.bat` file to use your own url/username/password, and then run it.
+Download latest release in the [releases page of this repository](https://github.com/Pierstoval/WatchVideo/releases), download the one for your env, and edit the `watch_video.bat` file to use your own url/username/password, and then run it.
 
 For now, it works only on Windows.
 
