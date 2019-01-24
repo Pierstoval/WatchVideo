@@ -2,13 +2,11 @@ const puppeteer = require('puppeteer');
 
 const headless = true;
 
-console.info(process.argv);
+var tipeeePageUrl = process.argv[2],
+    tipeeeUsername = process.argv[3],
+    tipeeePassword = process.argv[4];
 
-const argvstart = process.argv[1].match(/\.js$/) ? 1 : 2;
-
-var tipeeePageUrl = process.argv[argvstart],
-    tipeeeUsername = process.argv[argvstart + 1],
-    tipeeePassword = process.argv[argvstart + 2];
+process.stdout.write('Url to promote: '+tipeeePageUrl+"\n");
 
 var sleep = function (ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
