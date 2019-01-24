@@ -1,40 +1,43 @@
 const puppeteer = require('puppeteer');
+const prompt = require('prompt-promise');
 
 const headless = true;
 
-var tipeeePageUrl = process.argv[2],
-    tipeeeUsername = process.argv[3],
-    tipeeePassword = process.argv[4];
-
-process.stdout.write('Url to promote: '+tipeeePageUrl+"\n");
+var tipeeePageUrl = process.argv[2] || '',
+    tipeeeUsername = process.argv[3] || '',
+    tipeeePassword = process.argv[4] || '';
 
 var sleep = function (ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 
+process.stdout.write("Press CTRL+C to stop the program.\n");
+
 async function start() {
     if (
-        !tipeeePageUrl
-        || !tipeeeUsername
-        || !tipeeePassword
-        || ('USERNAME' === tipeeeUsername)
-        || ('PASSWORD' === tipeeePassword)
+        !tipeeePageUrl.trim()
+        || !tipeeeUsername.trim()
+        || !tipeeePassword.trim()
+        || ('USERNAME' === tipeeeUsername.toUpperCase())
+        || ('PASSWORD' === tipeeePassword.toUpperCase())
     ) {
-        process.stderr.write("\n/!\\ Please add necessary values when running the script. The command should look like this:\n");
-        process.stderr.write("\n command [tipeee url] [tipeee username] [tipeee password]");
-        process.stderr.write("\n");
-        process.stderr.write("\nExamples:");
-        process.stderr.write("\n tipeee.js https://fr.tipeee.com/the-project-you-want-to-help my_username My5up4rP4ssw0rd");
-        process.stderr.write("\n tipeee.exe https://fr.tipeee.com/the-project-you-want-to-help my_username My5up4rP4ssw0rd");
-        process.stderr.write("\n");
-        process.stderr.write("\nWe don't store any password. Check the source code of this project if you want to be sure of it.\n");
-        process.exit(1);
-    }
+        do {
+            tipeeePageUrl = await prompt('Tipeee page URL: ');
+            if (tipeeePageUrl && !tipeeePageUrl.match(/^https?:\/\/(fr|en)\.tipeee\.com\//gi)) {
+                process.stdout.write("URL must start with a Tipeee url like \"https://fr.tipeee.com/\"\n");
+                tipeeePageUrl = null;
+            }
+            tipeeePageUrl = (tipeeePageUrl || '').trim();
+        } while (!tipeeePageUrl);
 
-    if (!tipeeePageUrl || !tipeeeUsername || !tipeeePassword) {
-        process.stdout.write("\nCredentials were not correctly injected.");
-        process.stdout.write("\nThis is an app problem, contact the maintainer (or fix this yourself if you know how to do it.");
-        process.exit(1);
+        do {
+            tipeeeUsername = await prompt('Username or email: ');
+            tipeeeUsername = (tipeeeUsername || '').trim();
+        } while (!tipeeeUsername);
+
+        do {
+            tipeeePassword = await prompt.password('Password: ');
+        } while (!tipeeePassword);
     }
 
     const browser = await puppeteer.launch({
@@ -67,7 +70,12 @@ async function start() {
     await submitButton.click({delay: 100});
 
     process.stdout.write("\nWaiting for redirection to finish...");
-    await page.waitForNavigation();
+    try {
+        await page.waitForNavigation();
+    } catch (e) {
+        process.stderr.write("\nSeems like your username or email is wrong...");
+        process.exit(1);
+    }
 
     process.stdout.write("\nGoing to next page...");
     await page.goto(tipeeePageUrl);
