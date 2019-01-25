@@ -57,11 +57,16 @@ async function start() {
     }
 
     process.stdout.write("\nRetrieving iframe...");
+    let frame;
     try {
-        const frame = await page.frames().find((f) => f._navigationURL === 'https://oauth.tipeee.com/login');
+        frame = await page.frames().find((f) => f._navigationURL === 'https://oauth.tipeee.com/login');
     } catch (e) {
+        frame = null;
+    }
+    if (!frame) {
         process.stderr.write("\nSeems we can't find the login wrapper...");
         process.exit(1);
+        return;
     }
 
     process.stdout.write("\nFilling username...");
