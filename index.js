@@ -49,10 +49,20 @@ async function start() {
     const page = pages[0];
 
     process.stdout.write("\nOpening login page...");
-    await page.goto('https://fr.tipeee.com/login');
+    try {
+        await page.goto('https://fr.tipeee.com/login');
+    } catch (e) {
+        process.stderr.write("\nCan't reach login page :(");
+        process.exit(1);
+    }
 
     process.stdout.write("\nRetrieving iframe...");
-    const frame = await page.frames().find((f) => f._navigationURL === 'https://oauth.tipeee.com/login');
+    try {
+        const frame = await page.frames().find((f) => f._navigationURL === 'https://oauth.tipeee.com/login');
+    } catch (e) {
+        process.stderr.write("\nSeems we can't find the login wrapper...");
+        process.exit(1);
+    }
 
     process.stdout.write("\nFilling username...");
     const usernameInput = await frame.$('input[name="_username"]');
