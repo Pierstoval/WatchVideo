@@ -196,6 +196,17 @@ async function waitUntilNewVideoAvailable(browser, page, nested) {
 // Execute:
 
 (async () => {
-
-    await start();
+    let failures = 0;
+    while (true) {
+        try {
+            await start();
+        } catch (e) {
+            failures++;
+            process.stderr.write("\n================================================================");
+            process.stderr.write("\n================================================================");
+            process.stderr.write("\nWhole process failed for the "+failures+" time(s). Restarting...");
+            process.stderr.write("\n================================================================");
+            process.stderr.write("\n================================================================");
+        }
+    }
 })();
