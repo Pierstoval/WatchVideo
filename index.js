@@ -202,11 +202,13 @@ async function waitUntilNewVideoAvailable(browser, page, nested) {
             await start();
         } catch (e) {
             failures++;
-            process.stderr.write("\n================================================================");
-            process.stderr.write("\n================================================================");
-            process.stderr.write("\nWhole process failed for the "+failures+" time(s). Restarting...");
-            process.stderr.write("\n================================================================");
-            process.stderr.write("\n================================================================");
+            process.stderr.write("\n===================================================");
+            process.stderr.write("\n===================================================");
+            process.stderr.write("\n Whole process failed "+failures+" time(s). Error:");
+            process.stderr.write("\n "+(e.message || e.toString()));
+            process.stderr.write("\n Restarting...");
+            process.stderr.write("\n===================================================");
+            process.stderr.write("\n===================================================");
         }
     }
 })();
