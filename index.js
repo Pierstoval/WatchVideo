@@ -132,10 +132,10 @@ async function clickClip(browser, page, nested) {
     await firstClip.click();
 
     process.stdout.write("\nWaiting until play button appears..");
-    await page.waitForSelector('.playBtn');
+    await page.waitForSelector('.playBtn', {timeout: 300000});
 
     process.stdout.write("\nClicking first clip link...");
-    const playButton = await page.$('.playBtn', {timeout: 300000});
+    const playButton = await page.$('.playBtn');
     await playButton.click();
 
     process.stdout.write("\nRetrieving youtube iframe...");
