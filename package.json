@@ -1,0 +1,24 @@
+{
+  "name": "video_viewer",
+  "version": "1.0.0",
+  "description": "Watch videos on Tipeee",
+  "main": "index.js",
+  "dependencies": {
+    "prompt-promise": "^1.0.3",
+    "puppeteer": "^1.13.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pierstoval/WatchVideo.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Pierstoval/WatchVideo/issues"
+  },
+  "homepage": "https://github.com/Pierstoval/WatchVideo#readme"
+}

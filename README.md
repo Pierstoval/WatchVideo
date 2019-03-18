@@ -1,5 +1,5 @@
-Watch video
-===========
+Watch video on Tipeee
+=====================
 
 ## Disclaimer
 
