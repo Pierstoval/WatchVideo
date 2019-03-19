@@ -122,14 +122,18 @@ async function clickClip(browser, page, nested) {
     process.stdout.write("\nCheck if at least one clip is available..");
     try {
         await page.waitForSelector('#clip-container .clip:not(.watched)', {timeout: 6000});
+
+        process.stdout.write("\nClicking first clip link that seems available...");
+        let firstClip = await page.$$('#clip-container .clip:not(.watched)');
+        if (firstClip[0] && await firstClip[0].$('.timer') && firstClip[1]) {
+            process.stdout.write("\nFirst clip link has a timer, let's use the second one...");
+            firstClip = firstClip[1];
+        }
+        await firstClip.click();
     } catch (e) {
         await waitUntilNewVideoAvailable(browser, page, nested);
         return;
     }
-
-    process.stdout.write("\nClicking first clip link...");
-    const firstClip = await page.$('#clip-container .clip:not(.watched)');
-    await firstClip.click();
 
     process.stdout.write("\nWaiting until play button appears..");
     await page.waitForSelector('.playBtn', {timeout: 300000});
