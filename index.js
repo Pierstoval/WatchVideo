@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const prompt = require('prompt-promise');
 
 const headless = true;
+const minutesToWaitWhileVideoIsPlaying = 5;
 
 var tipeeePageUrl = process.argv[2] || '',
     tipeeeUsername = process.argv[3] || '',
@@ -129,8 +130,11 @@ async function clickClip(browser, page, nested) {
             process.stdout.write("\nFirst clip link has a timer, let's use the second one...");
             firstClip = firstClip[1];
         }
-        await firstClip.click();
+        await firstClip[0].click();
     } catch (e) {
+        process.stdout.write("\nError:");
+        process.stdout.write("\n"+e.message);
+        process.stdout.write("\n");
         await waitUntilNewVideoAvailable(browser, page, nested);
         return;
     }
@@ -156,16 +160,20 @@ async function clickClip(browser, page, nested) {
     const youtubePlayButton = await youtubeFrame.$('.ytp-large-play-button');
     await youtubePlayButton.click();
 
-    process.stdout.write("\nWait 80s (just in case) for the player to finish playing...");
-    await sleep(80000);
-    process.stdout.write("\nEnough wait! The \"back to list\" button should be here now...");
+    process.stdout.write("\nWait "+minutesToWaitWhileVideoIsPlaying+" minutes (just in case) for the player to finish playing...");
+    await sleep(minutesToWaitWhileVideoIsPlaying * 60 * 1000);
+    process.stdout.write("\nEnough wait! The \"back to list\" button should be here now (wait a bit more, just in case)...");
     try {
         await page.waitForSelector('a.backToList');
 
         process.stdout.write("\nFinished watching video! \\o/ ♥");
         process.stdout.write("\nWaiting 30 seconds maximum until another clip is available");
     } catch (e) {
-        process.stdout.write("\nWell, it's not...");
+        process.stdout.write("\nAn error occured:");
+        process.stdout.write("\n");
+        process.stdout.write("\n"+e.toString());
+        process.stdout.write("\n");
+        process.stdout.write("\nWell, it appears it's not...");
         await waitUntilNewVideoAvailable(browser, page, nested);
         return;
     }
