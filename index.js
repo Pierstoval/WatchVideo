@@ -125,6 +125,9 @@ async function clickClip(browser, page, nested) {
         await page.waitForSelector('#clip-container .clip:not(.watched)', {timeout: 6000});
 
         process.stdout.write("\nClicking first clip link that seems available...");
+        if (!firstClip[0]) {
+            throw 'No clip to click on.';
+        }
         let firstClip = await page.$$('#clip-container .clip:not(.watched)');
         if (firstClip[0] && await firstClip[0].$('.timer') && firstClip[1]) {
             process.stdout.write("\nFirst clip link has a timer, let's use the second one...");
